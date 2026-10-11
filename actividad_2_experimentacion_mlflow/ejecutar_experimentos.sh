@@ -77,3 +77,4 @@ echo "Para comparar las corridas en la interfaz web, ejecuta:"
 echo "    mlflow ui --port 5000"
 echo "Luego abre en tu navegador: http://127.0.0.1:5000"
 echo "========================================================================"
+

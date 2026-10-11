@@ -55,3 +55,4 @@ python train.py --C 0.5 --solver liblinear --max_iter 1000 --seed 42 \
    * **Captura 2:** `capturas_mlflow/SS Corrida_4_solver_liblinear.png`
 4. Guarda y exporta el archivo como:  
    **`TC5061_Experimentacion_MLFlow_[TuApellidoTuNombre].pdf`**
+
