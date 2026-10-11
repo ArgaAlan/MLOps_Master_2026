@@ -2,7 +2,7 @@
 
 Este repositorio contiene la migración del modelo de aprendizaje automático desde un entorno exploratorio hacia un script de entrenamiento parametrizado, modular y reproducible (`train.py`), completamente instrumentado con **MLflow Tracking**.
 
-> **Repositorio de GitHub:** `https://github.com/[TU_USUARIO]/[TU_REPOSITORIO]` *(Placeholder)*  
+> **Repositorio de GitHub:** `https://github.com/argaalan/MLOps_Master_2026` *(Oficial)*  
 > **Asignatura:** TC5061 - Experimentación y MLOps  
 > **Dataset:** *Breast Cancer Wisconsin (Diagnostic)* (Kaggle / UCI Machine Learning Repository)
 

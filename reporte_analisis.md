@@ -4,7 +4,7 @@
 **Nombre del Entregable:** `TC5061_Experimentacion_MLFlow_[ApellidoNombre].pdf`  
 **Estudiante:** [Nombre Completo del Estudiante]  
 **Matrícula:** [Matrícula / ID]  
-**Repositorio de GitHub:** `https://github.com/[TU_USUARIO]/[TU_REPOSITORIO]`  
+**Repositorio de GitHub:** `https://github.com/argaalan/MLOps_Master_2026`  
 **Formato:** Fuente Arial o Times New Roman, 11 pt, interlineado 1.5. Extensión: $\le 2$ cuartillas (sin contar capturas ni anexos).
 
 ---
