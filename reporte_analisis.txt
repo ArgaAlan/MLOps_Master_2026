@@ -1,0 +1,100 @@
+================================================================================
+REPORTE TÉCNICO: EXPERIMENTACIÓN Y SEGUIMIENTO DE MODELOS CON MLFLOW
+Asignatura: TC5061 - Experimentación y MLOps
+Entregable: TC5061_Experimentacion_MLFlow_[ApellidoNombre].pdf
+Estudiante: [Nombre Completo del Estudiante]
+Matrícula: [Matrícula / ID]
+Repositorio de GitHub: https://github.com/[TU_USUARIO]/[TU_REPOSITORIO]
+Formato de Entrega: Fuente Arial / Times New Roman, 11 pt, interlineado 1.5
+================================================================================
+
+1. COMANDO EXACTO DE EJECUCIÓN
+El script de entrenamiento parametrizado fue desarrollado de forma modular en 'train.py'
+utilizando argparse y Scikit-Learn, instrumentado integralmente con MLflow Tracking.
+
+Comando para ejecutar la mejor configuración obtenida:
+python train.py --C 0.5 --solver liblinear --max_iter 1000 --seed 42 --experiment_name "Optimizacion_Cancer_Mama_Hiperparametros" --run_name "Corrida_4_Solver_Liblinear"
+
+Comando para reproducir las cinco corridas experimentales en lote:
+./ejecutar_experimentos.sh
+
+Comando para visualizar y comparar los resultados en la interfaz de MLflow:
+mlflow ui --port 5000
+
+--------------------------------------------------------------------------------
+2. TABLA COMPARATIVA DE CORRIDAS EN MLFLOW TRACKING
+Experimento: 'Optimizacion_Cancer_Mama_Hiperparametros'
+Dataset: Breast Cancer Wisconsin Diagnostic (569 muestras limpias, split 80/20)
+
+Corrida                         C     Solver     Max Iter  Accuracy  Recall   Precision  F1-Score  ROC-AUC  FN  FP
+----------------------------------------------------------------------------------------------------------------
+Corrida_1_Baseline_Default     1.0   lbfgs      1000      0.9649    0.9286   0.9750     0.9512    0.9960   3   1
+Corrida_2_Alta_Regularizacion  0.01  lbfgs      1000      0.9474    0.8571   1.0000     0.9231    0.9977   6   0
+Corrida_3_Baja_Regularizacion  10.0  lbfgs      1000      0.9737    0.9524   0.9756     0.9639    0.9864   2   1
+Corrida_4_Solver_Liblinear     0.5   liblinear  1000      0.9825    0.9524   1.0000     0.9756    0.9974   2   0
+Corrida_5_Solver_Saga          2.0   saga       2000      0.9737    0.9524   0.9756     0.9639    0.9940   2   1
+
+--------------------------------------------------------------------------------
+3. ANÁLISIS DE RESULTADOS
+
+A. Identificación de la Mejor Configuración
+La configuración con mejor desempeño global corresponde a la 'Corrida_4_Solver_Liblinear', 
+con los hiperparámetros C=0.5, solver='liblinear', max_iter=1000 y seed=42. 
+Esta corrida alcanzó la exactitud más alta (Accuracy: 98.25%, 112 de 114 casos correctos), 
+una Precisión perfecta (100.0%, 0 Falsos Positivos) y el mayor balance armónico 
+(F1-Score: 0.9756 y ROC-AUC: 0.9974). 
+
+En el contexto médico de diagnóstico oncológico, la métrica crítica es el Recall 
+(Sensibilidad), cuyo objetivo es minimizar los Falsos Negativos (pacientes con cáncer no 
+detectados). La Corrida 4 redujo los falsos negativos a solo 2 casos (Recall: 95.24%), 
+superando sustancialmente a la configuración baseline inicial (que presentó 3 falsos 
+negativos, Recall: 92.86%) y garantizando simultáneamente que ningún paciente sano sea 
+sometido a biopsias invasivas innecesarias (cero falsos positivos).
+
+B. Hiperparámetro Más Influyente y Dinámica de Optimización
+El hiperparámetro con mayor impacto sobre el comportamiento y frontera de decisión del 
+modelo fue 'C' (el inverso del factor de regularización L2):
+
+- Cuando se forzó una regularización extrema (Corrida 2: C=0.01), el modelo experimentó 
+  un subajuste (underfitting) severo. Los coeficientes se contrajeron excesivamente hacia 
+  cero, provocando que el Recall se desplomara al 85.71% y los falsos negativos se 
+  duplicaran a 6 pacientes sin diagnosticar. Aunque la precisión fue del 100%, este modelo 
+  resulta inaceptable clínicamente debido al alto riesgo de omitir tumores malignos activos.
+- Al relajar la regularización a valores moderados y altos (C=0.5, C=2.0 y C=10.0), el 
+  modelo ganó suficiente flexibilidad para separar las clases biológicas complejas, elevando 
+  el Recall al 95.24%. 
+- Respecto a los algoritmos de optimización (solvers), 'liblinear' superó levemente a 'lbfgs' 
+  y 'saga' debido a que implementa descenso por coordenadas, un método altamente eficiente 
+  y estable para datasets tabulares de tamaño moderado.
+
+C. Limitaciones Observadas
+1. Supuesto de Linealidad: La regresión logística asume una frontera de decisión hiperplana 
+   lineal sobre el espacio de características escalado. Aunque altamente competitiva 
+   (AUC > 0.99), no captura interacciones no lineales de orden superior entre descriptores 
+   celulares (p. ej., relación no lineal entre textura y concavidad).
+2. Multicolinealidad Geométrica: Características como radio, perímetro y área presentan 
+   correlaciones superiores a 0.98. Aunque la regularización L2 previene singularidades 
+   matemáticas, infla la varianza de los coeficientes individuales, limitando su 
+   interpretabilidad biológica causal.
+3. Tamaño Muestral Tabular: Con 569 registros totales y 114 observaciones de prueba, la 
+   variación de una sola predicción altera las métricas en aproximadamente un 0.88%. Un 
+   esquema productivo requeriría validación cruzada estratificada (K-Fold Cross-Validation) 
+   para robustecer la certidumbre estadística.
+
+--------------------------------------------------------------------------------
+4. EVIDENCIAS VISUALES DE MLFLOW TRACKING (INCRUSTAR CAPTURAS)
+
+[INSERTA AQUÍ LA CAPTURA 1: TABLA COMPARATIVA DE CORRIDAS EN MLFLOW UI]
+Instrucciones: En MLflow UI (http://127.0.0.1:5000), selecciona el experimento 
+'Optimizacion_Cancer_Mama_Hiperparametros', marca las 5 casillas de las corridas y 
+haz clic en el botón 'Compare'. Captura la tabla general donde se observen los parámetros 
+(C, solver, max_iter, seed) frente a las métricas (accuracy, recall, precision, f1_score).
+
+[INSERTA AQUÍ LA CAPTURA 2: DETALLE DE LA MEJOR CORRIDA Y SUS ARTEFACTOS]
+Instrucciones: En MLflow UI, haz clic sobre 'Corrida_4_Solver_Liblinear'. Captura la 
+pantalla mostrando los parámetros, las métricas y el panel 'Artifacts' desplegado 
+mostrando 'confusion_matrix.png', 'roc_curve.png' y el modelo 'modelo_logistic_regression'.
+
+================================================================================
+Fin del Reporte Técnico - TC5061
+================================================================================

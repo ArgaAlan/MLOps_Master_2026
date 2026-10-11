@@ -1,0 +1,29 @@
+================================================================================
+INTERPRETACIÓN DETALLADA DE LA EVALUACIÓN DEL MODELO BASELINE
+================================================================================
+Métricas Obtenidas:
+- Accuracy:    0.9649 (96.49%)
+- Precision:   0.9750 (97.50%)
+- Recall:      0.9286 (92.86%)
+- F1-Score:    0.9512
+- ROC-AUC:     0.9960
+- Especificidad: 0.9861
+
+Desglose de la Matriz de Confusión:
+- Verdaderos Negativos (TN): 71 (Tumores benignos clasificados correctamente)
+- Falsos Positivos (FP):     1 (Tumores benignos clasificados erróneamente como malignos)
+- Falsos Negativos (FN):     3 (Tumores malignos clasificados erróneamente como benignos)
+- Verdaderos Positivos (TP): 39 (Tumores malignos detectados exitosamente)
+
+Análisis Crítico en el Contexto Médico:
+1. En un problema de cribado oncológico, el costo de un Falso Negativo (FN) es potencialmente fatal,
+   ya que un paciente con cáncer activo se iría sin diagnóstico oportuno ni tratamiento.
+2. La métrica primaria a maximizar debe ser el Recall (Sensibilidad). En este modelo baseline,
+   un Recall de 92.86% (detectando 39 de 42 casos malignos) con solo 3 falso negativo
+   representa un punto de partida sumamente sólido para un modelo lineal simple.
+3. La Precisión de 97.50% y Especificidad de 98.61% indican que el modelo comete
+   muy pocos Falsos Positivos (1 casos), minimizando la angustia psicológica del paciente y costos 
+   asociados a biopsias invasivas innecesarias.
+4. El AUC de 0.9960 confirma una capacidad de discriminación casi óptima a través de distintos umbrales
+   de probabilidad de corte.
+================================================================================

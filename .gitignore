@@ -1,0 +1,29 @@
+# Entornos virtuales
+venv/
+env/
+ENV/
+.venv/
+
+# MLflow Tracking local y base de datos
+mlflow.db
+mlruns/
+.trash/
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Archivos temporales del sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+

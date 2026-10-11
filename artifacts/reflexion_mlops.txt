@@ -1,0 +1,41 @@
+
+================================================================================
+PASO 7: REFLEXIÓN CRÍTICA - PRÁCTICAS MLOps Y SU IMPACTO PROFESIONAL
+================================================================================
+
+1. ¿Qué mejoraría en este flujo aplicando prácticas de MLOps y por qué?
+Aunque este flujo cubre satisfactoriamente el ciclo elemental de Machine Learning 
+(ingesta, limpieza, baseline, evaluación y registro local), en un entorno productivo 
+real presenta limitaciones clave que deben resolverse con prácticas maduras de MLOps:
+
+- Orquestación y Versionado de Datos (DVC / Feast): En este ejercicio, los datos se 
+  cargan desde un archivo CSV estático. En producción, los datos evolucionan constantemente. 
+  Implementar DVC (Data Version Control) acoplado a un bucket S3/GCS permitiría trazar la 
+  versión exacta de los datos que entrenó cada modelo, garantizando reproducibilidad auditable.
+- Pipelines de Entrenamiento Declarativos y Automatizados (ZenML / Kubeflow / Airflow): 
+  Sustituir el script monolítico por pasos modulares (data ingestion -> validation -> 
+  transformation -> training -> evaluation) asegura que cada etapa sea reejecutable, testeable 
+  y desacoplada.
+- Validación Automatizada de Datos (Great Expectations): Implementar suites de pruebas de 
+  esquemas y distribuciones previo al entrenamiento para prevenir errores silenciosos ante 
+  valores nulos inesperados o tipos erróneos.
+- Integración Continua y Despliegue Continuo (CI/CD): Mediante GitHub Actions, automatizar 
+  pruebas unitarias, linting, reentrenamiento ante nuevos datos y despliegue del modelo en un 
+  contenedor Docker expuesto mediante una API REST (FastAPI).
+- Monitoreo en Producción y Detección de Deriva (Evidently AI / MLflow Tracing): Un modelo de 
+  diagnóstico médico no puede ser una caja negra estática. Es imprescindible monitorear 'Data Drift' 
+  (cambios en la tecnología de digitalización o perfil de pacientes) y 'Concept Drift' para 
+  disparar alertas de reentrenamiento proactivas.
+
+2. ¿Cómo se ven reflejados estos aprendizajes dentro de tu área profesional?
+En el ámbito profesional y de ingeniería de software/datos, la adopción de MLOps transforma 
+el Machine Learning de un ejercicio académico artesanal a un activo empresarial confiable, 
+gobernable y sostenible. Históricamente, más del 80% de los proyectos de ciencia de datos 
+nunca llegan a producción debido a la fricción entre científicos de datos y los equipos de 
+operaciones (DevOps). Dominar el registro de experimentos con MLflow, el versionado sistemático 
+de parámetros y métricas, y la serialización de modelos con contratos de entrada claros 
+permite construir soluciones con alta trazabilidad, reduciendo la deuda técnica. En sectores 
+regulados y críticos como salud, finanzas o tecnología corporativa, este rigor no es opcional: 
+asegura auditoría completa de decisiones algorítmicas, facilita la colaboración interdisciplinaria 
+y acelera el 'Time-to-Market' de modelos robustos y éticos.
+================================================================================
