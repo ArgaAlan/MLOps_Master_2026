@@ -4,11 +4,20 @@
 
 set -e
 
-PYTHON_EXEC="./venv/bin/python"
+# Detectar intérprete de Python (entorno virtual local, padre o activo)
+if [ -f "./venv/bin/python" ]; then
+    PYTHON_EXEC="./venv/bin/python"
+elif [ -f "../venv/bin/python" ]; then
+    PYTHON_EXEC="../venv/bin/python"
+else
+    PYTHON_EXEC="python"
+fi
+
 EXPERIMENT="Optimizacion_Cancer_Mama_Hiperparametros"
 
 echo "========================================================================"
 echo "INICIANDO EJECUCIÓN DE 5 CORRIDAS EXPERIMENTALES EN MLFLOW"
+echo "Intérprete: $PYTHON_EXEC"
 echo "Experimento: $EXPERIMENT"
 echo "========================================================================"
 
@@ -65,6 +74,6 @@ $PYTHON_EXEC train.py \
 echo -e "\n========================================================================"
 echo "TODAS LAS 5 CORRIDAS FUERON REGISTRADAS CON ÉXITO EN MLFLOW"
 echo "Para comparar las corridas en la interfaz web, ejecuta:"
-echo "    ./venv/bin/mlflow ui --port 5000"
+echo "    mlflow ui --port 5000"
 echo "Luego abre en tu navegador: http://127.0.0.1:5000"
 echo "========================================================================"

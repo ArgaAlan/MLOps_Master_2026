@@ -1,9 +1,0 @@
-1. DUPLICADOS: Se identificaron 3 registros idénticos generados por error de captura o re-ingreso. Decisión: Eliminación con drop_duplicates(). Justificación: Prevenir fuga de datos (data leakage) y sesgo en el conjunto de prueba.
-
-2. VALORES FALTANTES: Se detectaron 4 celdas nulas en las variables ['radius_mean', 'texture_mean', 'area_mean', 'smoothness_mean']. Decisión: Imputación mediante la mediana de cada columna. Justificación: La mediana es estadísticamente robusta frente a distribuciones asimétricas y valores extremos, preservando el tamaño muestral sin sesgar la media.
-
-3. VARIABLE ID: La columna 'id' representa únicamente el identificador del paciente. Decisión: Se elimina del espacio de características. Justificación: No contiene señal predictiva biológica y podría inducir memorización espuria en el modelo.
-
-4. CODIFICACIÓN DE TARGET: La variable 'diagnosis' era de tipo texto ('M', 'B'). Decisión: Transformación a binario numérico (1 = Maligno, 0 = Benigno). Justificación: Es la clase positiva clínicamente relevante y formato requerido por los estimadores de scikit-learn.
-
-5. OUTLIERS: Se detectaron valores numéricos fuera del rango [Q1 - 1.5*IQR, Q3 + 1.5*IQR] en variables como 'area_worst' (35 casos) y 'radius_worst' (17 casos). Decisión: Mantener los valores sin truncar arbitrariamente ni eliminarlos. Justificación: En el dominio médico de oncología, los tumores de alto grado presentan biológicamente perímetros y áreas extremadamente grandes. Descartarlos causaría la pérdida de los casos malignos más severos y críticos. En su lugar, se mitiga el efecto de escala mediante estandarización (StandardScaler) en la etapa de modelado.
